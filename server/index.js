@@ -1,7 +1,9 @@
 const express = require('express');
 const fs = require('fs');
+const  findRemoveSync = require('find-remove');
 
 const app = express();
+
 
 app.get('/get-captcha', (req, res) => {
 
@@ -28,12 +30,20 @@ app.get('/get-captcha', (req, res) => {
 
   // writing the result
   const timeStamp = Math.floor(Date.now() / 1000);
-  fs.appendFileSync(`./results/${timeStamp}`, `${select.join(' ')}`);
+  fs.writeFileSync(`./results/${timeStamp}.chk`, `${select.join(' ')}`);
+
+  // removing old results
+  findRemoveSync(__dirname + '/results', {age: { seconds: 300 }, extensions: '.chk'});
 
   res.send({numbers, pictures, timeStamp});
 });
 
+
 app.get('/check-captcha', (req, res) => {
+
+  // removing old results
+  findRemoveSync(__dirname + '/results', {age: { seconds: 300 }, extensions: '.chk'});
+
   res.send('Successful response.');
 });
 
