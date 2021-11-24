@@ -34,12 +34,14 @@ const getCaptcha = () => {
     return {numbers, pictures, timeStamp};
 }
 
-const checkCaptcha = () => {
-
+const checkCaptcha = (timeStamp, choice) => {
     // removing old results
-    findRemoveSync(`${__dirname}/results`, {age: { seconds: 300 }, extensions: '.chk'});
+    // findRemoveSync(`${__dirname}/results`, {age: { seconds: 300 }, extensions: '.chk'});
 
-    return 'Successful response.';
+    if (!choice || !timeStamp) return {status: 'failed', message: 'The "choice" and "timeStamp" parameters is required.'}
+    if (!fs.existsSync(`${__dirname}/results/${timeStamp}.chk`)) return {status: 'failed', message: 'Captcha is out of date.'}
+    if (fs.readFileSync(`${__dirname}/results/${timeStamp}.chk`).toString() !== choice) return {status: 'failed', message: 'The sequence of pictures does not match the sample.'}
+    return {status: 'ok', message: 'Successful response.'};
 }
 
 module.exports = { getCaptcha, checkCaptcha }

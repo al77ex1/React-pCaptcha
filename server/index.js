@@ -8,7 +8,7 @@ app.get('/get-captcha', (req, res) => {
 });
 
 app.get('/check-captcha', (req, res) => {
-  res.send(checkCaptcha());
+  res.send(checkCaptcha(req.query.timeStamp, req.query.choice));
 });
 
 app.listen(3000, () => console.log('Example app is listening on port 3000.'));
