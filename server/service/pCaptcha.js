@@ -36,7 +36,7 @@ const getCaptcha = () => {
 
 const checkCaptcha = (timeStamp, choice) => {
     // removing old results
-    // findRemoveSync(`${__dirname}/results`, {age: { seconds: 300 }, extensions: '.chk'});
+    findRemoveSync(`${__dirname}/results`, {age: { seconds: 300 }, extensions: '.chk'});
 
     if (!choice || !timeStamp) return {status: 'failed', message: 'The "choice" and "timeStamp" parameters is required.'}
     if (!fs.existsSync(`${__dirname}/results/${timeStamp}.chk`)) return {status: 'failed', message: 'Captcha is out of date.'}
