@@ -12,6 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1",
-    "find-remove": "^4.0.3"
+    "find-remove": "^4.0.3",
+    "merge-base64": "^1.0.3"
   }
 }

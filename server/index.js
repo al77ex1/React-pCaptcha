@@ -3,8 +3,8 @@ const {getCaptcha, checkCaptcha} = require('./service/pCaptcha');
 
 const app = express();
 
-app.get('/get-captcha', (req, res) => {
-  res.send(getCaptcha());
+app.get('/get-captcha', async (req, res) => {
+  res.send(await getCaptcha());
 });
 
 app.get('/check-captcha', (req, res) => {
