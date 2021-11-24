@@ -2,12 +2,16 @@ const fs = require("fs");
 const findRemoveSync = require("find-remove");
 const mergeImages = require('merge-base64');
 
-const amountFiles = 113;
-const collectionSize = 15;
-const selected = 3;
 const resultExpiration = 30;
 
 const getCaptcha = async () => {
+
+    const amountFiles = 113;
+    const collectionSize = 15;
+    const selected = 3;
+
+    // removing old results
+    findRemoveSync(`${__dirname}/results`, {age: { seconds: resultExpiration }, extensions: '.chk'});
 
     // generating a set of pictures
     const images = [];
@@ -35,9 +39,6 @@ const getCaptcha = async () => {
     // writing the result
     const timeStamp = Math.floor(Date.now() / 1000);
     fs.writeFileSync(`${__dirname}/results/${timeStamp}.chk`, `${select.join(' ')}`);
-
-    // removing old results
-    findRemoveSync(`${__dirname}/results`, {age: { seconds: resultExpiration }, extensions: '.chk'});
 
     return {images, captcha, timeStamp};
 }
